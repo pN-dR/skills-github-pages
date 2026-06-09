@@ -19,6 +19,54 @@
         <h1 class="title">Project Alpha</h1>
         <p class="caption">This portfolio showcases my education, skills, and projects as I progress through my degree. I am particularly interested in software design, AI, and cybersecurity.</p>
     </header>
-    
+    <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+    const firebaseConfig = {
+    apiKey: "AIzaSyAptzbdXfqsd3c8f-JRNyycMfkG9UPe5L8",
+    authDomain: "project-alpha-auth.firebaseapp.com",
+    projectId: "project-alpha-auth",
+    storageBucket: "project-alpha-auth.firebasestorage.app",
+    messagingSenderId: "750532416813",
+    appId: "1:750532416813:web:bbd087cbc26103bfc32fa4",
+    measurementId: "G-32PN22XT4S"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const provider = new GoogleAuthProvider();
+
+    document.getElementById("loginBtn").onclick = async () => {
+    await signInWithPopup(auth, provider);
+    };
+
+    document.getElementById("logoutBtn").onclick = async () => {
+    await signOut(auth);
+    };
+
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+        document.getElementById("userInfo").innerHTML =
+        `Logged in as ${user.displayName}`;
+
+        document.getElementById("loginBtn").style.display = "none";
+        document.getElementById("logoutBtn").style.display = "inline";
+    } else {
+        document.getElementById("userInfo").innerHTML = "";
+
+        document.getElementById("loginBtn").style.display = "inline";
+        document.getElementById("logoutBtn").style.display = "none";
+    }
+    });
+</script>
 </body>
 </html>
